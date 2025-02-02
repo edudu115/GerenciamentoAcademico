@@ -1,4 +1,4 @@
-package br.edu.ifsp.inoo.gerenciamento.academico;
+package br.edu.ifsp.inoo.gerenciamento.academico.view;
 
 public class Main {
 
