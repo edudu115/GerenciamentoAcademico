@@ -8,3 +8,4 @@ public class Professor extends Usuario {
 		super(prontuario, dataNascimento, nome, senha);
 	}
 }
+		
