@@ -25,7 +25,7 @@ public final class Avaliacao {
                 '}';
     }
 
-    // Builder interno
+
     public static class Builder {
         private String nome;
         private double peso;
