@@ -17,7 +17,7 @@ public class Professor extends Usuario {
     
     public void cadastrarAvaliacao(String codigoTurma, String nomeAvaliacao, double peso) {
         for (Turma turma : turmas) {
-            if (turma.getCodigo().equals(codigoTurma)) { // método getCodigo() a ser implementado
+            if (turma.getCodigo().equals(codigoTurma)) { // Corrigido para getCodigo()
                 turma.cadastrarAvaliacao(nomeAvaliacao, peso);
                 return;
             }
@@ -25,20 +25,20 @@ public class Professor extends Usuario {
         System.out.println("Turma não encontrada.");
     }
     
-    public void registrarNota(String codigoTurma, Aluno aluno, double nota) {
+    public void registrarNota(String codigoTurma, Estudante estudante, double nota) {
         for (Turma turma : turmas) {
             if (turma.getCodigo().equals(codigoTurma)) {
-                turma.registrarNota(aluno, nota);
+                turma.registrarNota(estudante, nota);
                 return;
             }
         }
         System.out.println("Turma não encontrada.");
     }
     
-    public void registrarFalta(String codigoTurma, Aluno aluno, int quantidade) {
+    public void registrarFalta(String codigoTurma, Estudante estudante, int quantidade) {
         for (Turma turma : turmas) {
             if (turma.getCodigo().equals(codigoTurma)) {
-                turma.registrarFalta(aluno, quantidade);
+                turma.registrarFalta(estudante, quantidade);
                 return;
             }
         }
@@ -63,4 +63,3 @@ public class Professor extends Usuario {
         return "Turma não encontrada.";
     }
 }
-
