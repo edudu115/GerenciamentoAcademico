@@ -20,7 +20,7 @@ public class Estudante extends Usuario {
         if (!turmasMatriculadas.contains(turma)) {
             turmasMatriculadas.add(turma);
             turma.adicionarEstudante(this);
-            System.out.println("Matriculado na turma: " + turma.getDisciplina());
+            System.out.println("Matriculado na turma: " + turma.getdisciplina());
         } else {
             System.out.println("Já está matriculado nesta turma.");
         }
