@@ -28,7 +28,7 @@ public class Estudante extends Usuario {
 
     public void consultarRendimento() {
         for (Turma turma : turmasMatriculadas) {
-            System.out.println("Disciplina: " + turma.getDisciplina());
+            System.out.println("Disciplina: " + turma.getdisciplina());
             System.out.println("Nota Final: " + turma.getNotaFinal(this));
             System.out.println("Faltas: " + turma.getFaltas(this));
             System.out.println("Situação: " + turma.getSituacao(this));

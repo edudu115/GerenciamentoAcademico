@@ -29,7 +29,7 @@ public class Turma {
 	
     public double calcularFrequencia(Estudante estudante) {
 		double frequencia;
-		//frequencia=estudante.consultarFaltas() + disciplina.totalAulas();
+		frequencia=estudante.consultarFaltas() + disciplina.totalAulas();
 		return frequencia;
 		
 	}
