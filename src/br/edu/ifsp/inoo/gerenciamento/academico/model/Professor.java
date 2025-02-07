@@ -1,7 +1,6 @@
 package br.edu.ifsp.inoo.gerenciamento.academico.model;
 
 import java.time.LocalDate;
-import java.util.*;
 
 public class Professor extends Usuario {
     private List<Turma> turmas;

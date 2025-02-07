@@ -29,7 +29,7 @@ Além disso, o projeto foi uma oportunidade valiosa para aplicar conceitos avan�
 
 ## 📂 Estrutura do Projeto
 
-O sistema foi desenvolvido em **Java 18+**, utilizando o **IDE Eclipse**, e segue uma arquitetura modular baseada no padrão **MVC (Model-View-Controller)**. As principais tecnologias e conceitos aplicados incluem:
+O sistema foi desenvolvido em **Java 18+**, utilizando o **IDE Eclipse**, e segue uma arquitetura modular baseada no padrão de organização **(Model/View)**. As principais tecnologias e conceitos aplicados incluem:
 - **POO:** Herança, encapsulamento, polimorfismo e interfaces.
 - **Padrões de Design:** Singleton, Factory Method, Observer e Strategy.
 - **Persistência em Memória:** Listas e arrays para armazenamento temporário de dados.
