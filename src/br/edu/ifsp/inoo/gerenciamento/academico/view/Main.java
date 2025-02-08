@@ -1,10 +1,12 @@
 package br.edu.ifsp.inoo.gerenciamento.academico.view;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Administrator;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Estudante;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Professor;
+import br.edu.ifsp.inoo.gerenciamento.academico.model.Usuario;
 
 
 
@@ -17,32 +19,20 @@ public class Main {
         
         Administrator admin = new Administrator();
         
-        Professor professor = new Professor(1234, LocalDate.now(), "Ednilson", "mudar123");
-        
-        Estudante estudante = new Estudante(1234, LocalDate.now(), "Ednilson", "mudar123");
-
-        
-        System.out.print("Digite seu prontuario: ");
+        System.out.println("--- Sistema de Gestão Acadêmico ---");
+        System.out.print("Digite seu Usuário: ");
         String username = scanner.nextLine();
-        System.out.print("Digite sua senha: ");
+        System.out.print("Digite sua Senha: ");
         String senha = scanner.nextLine();
 
-        if (admin.autenticar(username, senha)) {
+		if (admin.autenticar(username, senha)) {
             System.out.println("Login bem-sucedido como Administrador.");
             menuAdministrator(admin, scanner);
-        } else if (professor.autenticar(username, senha)) {
-            System.out.println("Login bem-sucedido como Professor.");
-            menuProfessor(professor, scanner);
-        } else if (estudante.autenticar(username, senha)) {
-            System.out.println("Login bem-sucedido como Estudante.");
-            menuEstudante(estudante, scanner);
-        } else {
-            System.out.println("Usuário ou senha incorretos.");
         }
     }
 
     public static void menuAdministrator(Administrator admin, Scanner scanner) {
-        
+        Usuario newUser;
         while (true) {
             System.out.println("\nMenu Administrador:");
             System.out.println("1. Cadastrar Professor");
@@ -56,17 +46,18 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Digite o nome do professor: ");
-                    String nomeProfessor = scanner.nextLine();
                     System.out.print("Digite o prontuário do professor: ");
-                    String prontuarioProfessor = scanner.nextLine();
+                    Integer prontuarioProfessor = scanner.nextInt();
+                    System.out.print("Digite uma data (no formato yyyy-MM-dd):  ");
+                    String dataNascimentoProfessor = scanner.nextLine();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate dataProfessor = LocalDate.parse(dataNascimentoProfessor, formatter);
                     System.out.print("Digite o username do professor: ");
                     String usernameProfessor = scanner.nextLine();
                     System.out.print("Digite a senha do professor: ");
                     String senhaProfessor = scanner.nextLine();
-                    Professor novoProfessor = new Professor(usernameProfessor, senhaProfessor, prontuarioProfessor);
-                    admin.cadastrarProfessor(novoProfessor);
                     System.out.println("Professor cadastrado com sucesso.");
+                	newUser = new Professor(prontuarioProfessor, dataProfessor, usernameProfessor, senhaProfessor);
                     break;
                 case 2:
                     System.out.print("Digite o nome da disciplina: ");
@@ -78,8 +69,6 @@ public class Main {
                     System.out.print("Digite a carga horária da disciplina: ");
                     int cargaHoraria = scanner.nextInt();
                     scanner.nextLine();  
-                    Disciplina novaDisciplina = new Disciplina(nomeDisciplina, siglaDisciplina, ementaDisciplina, cargaHoraria);
-                    admin.cadastrarDisciplina(novaDisciplina);
                     System.out.println("Disciplina cadastrada com sucesso.");
                     break;
                 case 3:
@@ -91,8 +80,6 @@ public class Main {
                     String usernameEstudante = scanner.nextLine();
                     System.out.print("Digite a senha do estudante: ");
                     String senhaEstudante = scanner.nextLine();
-                    Estudante novoEstudante = new Estudante(usernameEstudante, senhaEstudante, prontuarioEstudante);
-                    admin.cadastrarEstudante(novoEstudante);
                     System.out.println("Estudante cadastrado com sucesso.");
                     break;
                 case 4:
@@ -101,25 +88,21 @@ public class Main {
                     System.out.print("Escolha a disciplina para a turma (nome): ");
                     String nomeTurma = scanner.nextLine();
                     
-                    Disciplina disciplinaTurma = new Disciplina(nomeTurma, "SIGLA", "EMENTA", 60); 
                     System.out.print("Escolha o professor para a turma (username): ");
                     String professorTurma = scanner.nextLine();
                     
-                    Professor professorTurmaObj = new Professor(professorTurma, "1234", "P001"); 
-                    Turma novaTurma = new Turma(codigoTurma, disciplinaTurma, professorTurmaObj);
-                    admin.cadastrarTurma(novaTurma);
                     System.out.println("Turma cadastrada com sucesso.");
                     break;
                 case 5:
                     System.out.println("Saindo...");
-                    return;
+                    break;
                 default:
                     System.out.println("Opção inválida.");
             }
         }
     }
 
-    public static void menuProfessor(Professor professor, Scanner scanner) {
+    public static void menuProfessor(Usuario professor, Scanner scanner) {
         
         while (true) {
             System.out.println("\nMenu Professor:");
@@ -163,7 +146,7 @@ public class Main {
         }
     }
 
-    public static void menuEstudante(Estudante estudante, Scanner scanner) {
+    public static void menuEstudante(Usuario estudante, Scanner scanner) {
         
         while (true) {
             System.out.println("\nMenu Estudante:");
