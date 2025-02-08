@@ -1,6 +1,8 @@
 package br.edu.ifsp.inoo.gerenciamento.academico.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Professor extends Usuario {
     private List<Turma> turmas;
@@ -16,8 +18,8 @@ public class Professor extends Usuario {
     
     public void cadastrarAvaliacao(String codigoTurma, String nomeAvaliacao, double peso) {
         for (Turma turma : turmas) {
-            if (turma.getCodigo().equals(codigoTurma)) { // Corrigido para getCodigo()
-                turma.cadastrarAvaliacao(nomeAvaliacao, peso);
+            if (turma.getCodigo().equals(codigoTurma)) {
+                turma.adicionarAvaliacao(new Avaliacao(nomeAvaliacao, peso));
                 return;
             }
         }

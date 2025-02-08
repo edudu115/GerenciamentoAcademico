@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Estudante extends Usuario {
-    private String nome;
-    private String matricula;
     private List<Turma> turmasMatriculadas;
     private int faltas;
 
-    public Estudante(Integer prontuario, LocalDate dataNascimento, String username, String password, String nome, String matricula) {
+    public Estudante(Integer prontuario, LocalDate dataNascimento, String username, String password) {
         super(prontuario, dataNascimento, username, password);
-        this.nome = nome;
-        this.matricula = matricula;
         this.turmasMatriculadas = new ArrayList<>();
         this.faltas = 0;
     }
@@ -42,22 +38,6 @@ public class Estudante extends Usuario {
 
     public void registrarFalta() {
         this.faltas++;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
     public List<Turma> getTurmasMatriculadas() {
