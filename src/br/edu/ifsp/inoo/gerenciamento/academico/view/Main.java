@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Administrator;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Avaliacao;
+import br.edu.ifsp.inoo.gerenciamento.academico.model.Disciplina;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Estudante;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Professor;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Turma;
@@ -112,7 +113,22 @@ public class Main {
                     System.out.print("Escolha o professor para a turma (username): ");
                     String professorTurma = scanner.nextLine();
                     
-                    admin.cadastrarTurma(codigoTurma, nomeTurma, professorTurma);
+                    Disciplina disciplinaSelecionada = null;
+                    for (Disciplina d : admin.getListaDisciplinas()) {
+                        if (d.getNome().equalsIgnoreCase(nomeTurma)) {
+                            disciplinaSelecionada = d;
+                            break;
+                        }
+                    }
+
+                    Professor professorSelecionado = null;
+                    for (Professor p : admin.getListaProfessores()) {
+                        if (p.getUsername().equalsIgnoreCase(professorTurma)) {
+                            professorSelecionado = p;
+                            break;
+                        }
+    }
+                    admin.cadastrarTurma(codigoTurma, disciplinaSelecionada, professorSelecionado);
                     System.out.println("Turma cadastrada com sucesso.");
                     break;
                 case 5:
@@ -163,7 +179,6 @@ public class Main {
                 professor.registrarNota(codigoTurma, nomeEstudante, nomeAvaliacaoNota, nota);
                 System.out.println("Nota registrada com sucesso.");
                 break;
-
 
             case 3:
                 System.out.print("Digite o código da turma: ");

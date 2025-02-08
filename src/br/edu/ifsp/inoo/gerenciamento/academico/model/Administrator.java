@@ -1,6 +1,8 @@
 package br.edu.ifsp.inoo.gerenciamento.academico.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe que representa um administrador do sistema acadêmico, responsável por gerenciar
@@ -40,8 +42,17 @@ public class Administrator extends Usuario {
      *   <li>Password: "admin"</li>
      * </ul>
      */
+        private List<Usuario> usuarios;
+        private List<Turma> turmas;
+        private List<Disciplina> disciplinas;
+        private List<Professor> professores;
+
     public Administrator() {
         super(12345, LocalDate.now(), "admin", "admin");
+        this.usuarios = new ArrayList<>();
+        this.turmas = new ArrayList<>();
+        this.disciplinas = new ArrayList<>();
+        this.professores = new ArrayList<>();
     }
 
     /**
@@ -54,7 +65,9 @@ public class Administrator extends Usuario {
      * @see Professor
      */
     public void cadastrarProfessor(Integer prontuario, LocalDate dataNascimento, String username, String password) {
-        this.user = new Professor(prontuario, dataNascimento, username, password);
+        Professor professor = new Professor(prontuario, dataNascimento, username, password);
+        this.professores.add(professor);
+        this.usuarios.add(professor);
     }
 
     /**
@@ -67,7 +80,8 @@ public class Administrator extends Usuario {
      * @see Estudante
      */
     public void cadastrarAluno(Integer prontuario, LocalDate dataNascimento, String username, String password) {
-        this.user = new Estudante(prontuario, dataNascimento, username, password);
+        Estudante estudante = new Estudante(prontuario, dataNascimento, username, password);
+        this.usuarios.add(estudante);
     }
 
     /**
@@ -79,7 +93,8 @@ public class Administrator extends Usuario {
      * @see Turma
      */
     public void cadastrarTurma(String codigo, Disciplina disciplina, Professor professor) {
-        this.turma = new Turma(codigo, disciplina, professor);
+        Turma novaTurma = new Turma(codigo, disciplina, professor);
+        this.turmas.add(novaTurma);
     }
 
     /**
@@ -93,6 +108,20 @@ public class Administrator extends Usuario {
      * @see Disciplina
      */
     public void cadastrarDisciplina(String nome, String sigla, String ementa, int cargaHoraria, int totalAulas) {
-        this.disciplina = new Disciplina(nome, sigla, ementa, cargaHoraria, totalAulas);
+        Disciplina novaDisciplina = new Disciplina(nome, sigla, ementa, cargaHoraria, totalAulas);
+        this.disciplinas.add(novaDisciplina);
+    }
+
+    // Métodos para recuperar as listas
+    public List<Disciplina> getListaDisciplinas() {
+        return disciplinas;
+    }
+
+    public List<Professor> getListaProfessores() {
+        return professores;
+    }
+
+    public List<Turma> getListaTurmas() {
+        return turmas;
     }
 }

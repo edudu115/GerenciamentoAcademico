@@ -2,7 +2,6 @@ package br.edu.ifsp.inoo.gerenciamento.academico.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Representa um professor no sistema de gerenciamento acadêmico.
@@ -12,7 +11,7 @@ import java.util.List;
  * </p>
  */
 public class Professor extends Usuario {
-    private List<Turma> turmas;
+    private ArrayList<Turma> turmas;
 
     /**
      * Construtor para inicializar um professor com os dados básicos.
@@ -116,5 +115,9 @@ public class Professor extends Usuario {
             }
         }
         System.out.println("Turma não encontrada.");
+    }
+
+    public ArrayList<Turma> getTurmas() {
+        return turmas;
     }
 }
