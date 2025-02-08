@@ -1,17 +1,21 @@
 package br.edu.ifsp.inoo.gerenciamento.academico.view;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Administrator;
+import br.edu.ifsp.inoo.gerenciamento.academico.model.Avaliacao;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Estudante;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Professor;
+import br.edu.ifsp.inoo.gerenciamento.academico.model.Turma;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Usuario;
 
 
 
 public class Main {
-
+    private static List<Usuario> usuarios = new ArrayList<>();
 	public static void main(String[] args) {
 		
         Scanner scanner = new Scanner(System.in);
@@ -28,6 +32,17 @@ public class Main {
 		if (admin.autenticar(username, senha)) {
             System.out.println("Login bem-sucedido como Administrador.");
             menuAdministrator(admin, scanner);
+        }
+        Usuario usuario = autenticarUsuario(username, senha);
+
+        if (usuario instanceof Professor) {
+            System.out.println("Login bem-sucedido como Professor.");
+            menuProfessor((Professor) usuario, scanner);
+        } else if (usuario instanceof Estudante) {
+            System.out.println("Login bem-sucedido como Estudante.");
+            menuEstudante((Estudante) usuario, scanner);
+        } else {
+            System.out.println("Usuário ou senha incorretos.");
         }
     }
 
@@ -56,6 +71,7 @@ public class Main {
                     String usernameProfessor = scanner.nextLine();
                     System.out.print("Digite a senha do professor: ");
                     String senhaProfessor = scanner.nextLine();
+                    admin.cadastrarProfessor(prontuarioProfessor, dataProfessor, usernameProfessor, senhaProfessor);
                     System.out.println("Professor cadastrado com sucesso.");
                 	newUser = new Professor(prontuarioProfessor, dataProfessor, usernameProfessor, senhaProfessor);
                     break;
@@ -69,17 +85,22 @@ public class Main {
                     System.out.print("Digite a carga horária da disciplina: ");
                     int cargaHoraria = scanner.nextInt();
                     scanner.nextLine();  
+                    admin.cadastrarDisciplina(nomeDisciplina, siglaDisciplina, ementaDisciplina, cargaHoraria, opcao);
                     System.out.println("Disciplina cadastrada com sucesso.");
                     break;
                 case 3:
-                    System.out.print("Digite o nome do estudante: ");
-                    String nomeEstudante = scanner.nextLine();
-                    System.out.print("Digite o prontuário do estudante: ");
-                    String prontuarioEstudante = scanner.nextLine();
                     System.out.print("Digite o username do estudante: ");
                     String usernameEstudante = scanner.nextLine();
                     System.out.print("Digite a senha do estudante: ");
                     String senhaEstudante = scanner.nextLine();
+                    System.out.print("Digite uma data (no formato yyyy-MM-dd):  ");
+                    String dataNascimentoEstudante = scanner.nextLine();
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate dataEstudante = LocalDate.parse(dataNascimentoEstudante, format);
+                    System.out.print("Digite o prontuário do estudante: ");
+                    int prontuarioEstudante = scanner.nextInt();
+                    scanner.nextLine();  
+                    admin.cadastrarAluno(prontuarioEstudante, dataEstudante, usernameEstudante, senhaEstudante);
                     System.out.println("Estudante cadastrado com sucesso.");
                     break;
                 case 4:
@@ -91,6 +112,7 @@ public class Main {
                     System.out.print("Escolha o professor para a turma (username): ");
                     String professorTurma = scanner.nextLine();
                     
+                    admin.cadastrarTurma(codigoTurma, nomeTurma, professorTurma);
                     System.out.println("Turma cadastrada com sucesso.");
                     break;
                 case 5:
@@ -102,42 +124,100 @@ public class Main {
         }
     }
 
-    public static void menuProfessor(Usuario professor, Scanner scanner) {
+    public static void menuProfessor(Professor professor, Scanner scanner) {
+    while (true) {
+        System.out.println("\nMenu Professor:");
+        System.out.println("1. Cadastrar Avaliação");
+        System.out.println("2. Registrar Nota");
+        System.out.println("3. Registrar Frequência");
+        System.out.println("4. Emitir Relatório de Alunos");
+        System.out.println("5. Emitir Relatório de Turma");
+        System.out.println("6. Sair");
+        System.out.print("Escolha uma opção: ");
         
+        int opcao = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcao) {
+            case 1:
+                System.out.print("Digite o código da turma: ");
+                String codigoTurma = scanner.nextLine();
+                System.out.print("Digite o nome da avaliação: ");
+                String nomeAvaliacao = scanner.nextLine();
+                System.out.print("Digite o peso da avaliação: ");
+                int peso = scanner.nextInt();
+                professor.cadastrarAvaliacao(codigoTurma, nomeAvaliacao, peso);
+                break;
+
+            case 2:
+                System.out.print("Digite o código da turma: ");
+                codigoTurma = scanner.nextLine();
+                System.out.print("Digite o nome do estudante: ");
+                String nomeEstudante = scanner.nextLine();
+                System.out.print("Digite o nome da avaliação: ");
+                String nomeAvaliacaoNota = scanner.nextLine();
+                System.out.print("Digite a nota: ");
+                double nota = scanner.nextDouble();
+                scanner.nextLine();
+    
+                professor.registrarNota(codigoTurma, nomeEstudante, nomeAvaliacaoNota, nota);
+                System.out.println("Nota registrada com sucesso.");
+                break;
+
+
+            case 3:
+                System.out.print("Digite o código da turma: ");
+                codigoTurma = scanner.nextLine();
+                System.out.print("Digite o nome do estudante: ");
+                nomeEstudante = scanner.nextLine();
+                System.out.print("Digite a quantidade de faltas: ");
+                int faltas = scanner.nextInt();
+                scanner.nextLine();    
+                professor.registrarFalta(codigoTurma, estudante, faltas);
+            
+                break;
+
+            case 4:
+                System.out.print("Digite o código da turma: ");
+                codigoTurma = scanner.nextLine();
+                professor.gerarRelatorioAlunos(codigoTurma);
+                break;
+
+            case 5:
+                System.out.print("Digite o código da turma: ");
+                codigoTurma = scanner.nextLine();
+                professor.consultarNota(codigoTurma);
+                break;
+
+            case 6:
+                System.out.println("Saindo...");
+                return;
+
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+}
+
+
+    public static void menuEstudante(Estudante estudante, Scanner scanner) {
         while (true) {
-            System.out.println("\nMenu Professor:");
-            System.out.println("1. Cadastrar Avaliação");
-            System.out.println("2. Registrar Nota");
-            System.out.println("3. Registrar Frequência");
-            System.out.println("4. Emitir Relatório de Alunos");
-            System.out.println("5. Emitir Relatório de Turma");
-            System.out.println("6. Sair");
+            System.out.println("\nMenu Estudante:");
+            System.out.println("1. Consultar Rendimento");
+            System.out.println("2. Consultar Faltas");
+            System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
-            scanner.nextLine();  
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
-                    
-                    System.out.println("Cadastro de Avaliação.");
+                    estudante.consultarRendimento();
                     break;
                 case 2:
-                    
-                    System.out.println("Registro de Nota.");
+                    System.out.println("Faltas gerais: " + estudante.getFaltasGerais());
                     break;
                 case 3:
-                    
-                    System.out.println("Registro de Frequência.");
-                    break;
-                case 4:
-                    
-                    System.out.println("Emitindo Relatório de Alunos.");
-                    break;
-                case 5:
-                    
-                    System.out.println("Emitindo Relatório de Turma.");
-                    break;
-                case 6:
                     System.out.println("Saindo...");
                     return;
                 default:
@@ -146,32 +226,12 @@ public class Main {
         }
     }
 
-    public static void menuEstudante(Usuario estudante, Scanner scanner) {
-        
-        while (true) {
-            System.out.println("\nMenu Estudante:");
-            System.out.println("1. Consultar Rendimento");
-            System.out.println("2. Consultar Faltas");
-            System.out.println("3. Sair");
-            System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine();  
-
-            switch (opcao) {
-                case 1:
-                    
-                    System.out.println("Consultando Rendimento.");
-                    break;
-                case 2:
-                    
-                    System.out.println("Consultando Faltas.");
-                    break;
-                case 3:
-                    System.out.println("Saindo...");
-                    return;
-                default:
-                    System.out.println("Opção inválida.");
+    private static Usuario autenticarUsuario(String username, String senha) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.autenticar(username, senha)) {
+                return usuario;
             }
         }
+        return null;
     }
 }
