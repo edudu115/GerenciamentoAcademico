@@ -10,7 +10,6 @@ import br.edu.ifsp.inoo.gerenciamento.academico.model.Avaliacao;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Disciplina;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Estudante;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Professor;
-import br.edu.ifsp.inoo.gerenciamento.academico.model.Turma;
 import br.edu.ifsp.inoo.gerenciamento.academico.model.Usuario;
 
 
@@ -48,7 +47,6 @@ public class Main {
     }
 
     public static void menuAdministrator(Administrator admin, Scanner scanner) {
-        Usuario newUser;
         while (true) {
             System.out.println("\nMenu Administrador:");
             System.out.println("1. Cadastrar Professor");
@@ -74,8 +72,7 @@ public class Main {
                     String senhaProfessor = scanner.nextLine();
                     admin.cadastrarProfessor(prontuarioProfessor, dataProfessor, usernameProfessor, senhaProfessor);
                     System.out.println("Professor cadastrado com sucesso.");
-                	newUser = new Professor(prontuarioProfessor, dataProfessor, usernameProfessor, senhaProfessor);
-                    break;
+                	break;
                 case 2:
                     System.out.print("Digite o nome da disciplina: ");
                     String nomeDisciplina = scanner.nextLine();
@@ -114,7 +111,7 @@ public class Main {
                     String professorTurma = scanner.nextLine();
                     
                     Disciplina disciplinaSelecionada = null;
-                    for (Disciplina d : admin.getListaDisciplinas()) {
+                    for (Disciplina d : admin.getDisciplinas()) {
                         if (d.getNome().equalsIgnoreCase(nomeTurma)) {
                             disciplinaSelecionada = d;
                             break;
@@ -122,12 +119,12 @@ public class Main {
                     }
 
                     Professor professorSelecionado = null;
-                    for (Professor p : admin.getListaProfessores()) {
+                    for (Professor p : admin.getProfessores()) {
                         if (p.getUsername().equalsIgnoreCase(professorTurma)) {
                             professorSelecionado = p;
                             break;
                         }
-    }
+                    }
                     admin.cadastrarTurma(codigoTurma, disciplinaSelecionada, professorSelecionado);
                     System.out.println("Turma cadastrada com sucesso.");
                     break;
@@ -175,8 +172,25 @@ public class Main {
                 System.out.print("Digite a nota: ");
                 double nota = scanner.nextDouble();
                 scanner.nextLine();
-    
-                professor.registrarNota(codigoTurma, nomeEstudante, nomeAvaliacaoNota, nota);
+
+                Administrator admin = new Administrator();
+
+                Estudante estudanteSelecionado = null;
+                for(Estudante e : admin.getEstudantes()){
+                    if (e.getUsername().equalsIgnoreCase(nomeEstudante)) {
+                        estudanteSelecionado = e;
+                        break;
+                    }
+                }
+
+                Avaliacao avaliacaoSelecionada = null;
+                for(Avaliacao a : professor.getAvaliacoes()){
+                    if (a.getNome().equalsIgnoreCase(nomeAvaliacaoNota)) {
+                        avaliacaoSelecionada = a;
+                        break;
+                    }
+                }
+                professor.registrarNota(codigoTurma, estudanteSelecionado, avaliacaoSelecionada, nota);
                 System.out.println("Nota registrada com sucesso.");
                 break;
 
@@ -188,7 +202,16 @@ public class Main {
                 System.out.print("Digite a quantidade de faltas: ");
                 int faltas = scanner.nextInt();
                 scanner.nextLine();    
-                professor.registrarFalta(codigoTurma, estudante, faltas);
+
+                Administrator adm = new Administrator();
+                Estudante estudanteBuscado = null;
+                for(Estudante e : adm.getEstudantes()){
+                    if (e.getUsername().equalsIgnoreCase(nomeEstudante)) {
+                        estudanteBuscado = e;
+                        break;
+                    }
+                }
+                professor.registrarFalta(codigoTurma, estudanteBuscado, faltas);
             
                 break;
 

@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Professor extends Usuario {
     private ArrayList<Turma> turmas;
+    private ArrayList<Avaliacao> avaliacoes;
 
     /**
      * Construtor para inicializar um professor com os dados básicos.
@@ -24,6 +25,7 @@ public class Professor extends Usuario {
     public Professor(Integer prontuario, LocalDate dataNascimento, String nome, String senha) {
         super(prontuario, dataNascimento, nome, senha);
         this.turmas = new ArrayList<>();
+        this.avaliacoes = new ArrayList<>();
     }
 
     /**
@@ -46,6 +48,8 @@ public class Professor extends Usuario {
         for (Turma turma : turmas) {
             if (turma.getCodigo().equals(codigoTurma)) {
                 turma.addAvaliacao(new Avaliacao(nomeAvaliacao, peso));
+                Avaliacao novaAvaliacao = new Avaliacao(nomeAvaliacao, peso);
+                this.avaliacoes.add(novaAvaliacao);
                 return;
             }
         }
@@ -119,5 +123,9 @@ public class Professor extends Usuario {
 
     public ArrayList<Turma> getTurmas() {
         return turmas;
+    }
+
+    public ArrayList<Avaliacao> getAvaliacoes(){
+        return avaliacoes;
     }
 }

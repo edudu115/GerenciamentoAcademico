@@ -2,7 +2,6 @@ package br.edu.ifsp.inoo.gerenciamento.academico.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Classe que representa um administrador do sistema acadêmico, responsável por gerenciar
@@ -42,14 +41,14 @@ public class Administrator extends Usuario {
      *   <li>Password: "admin"</li>
      * </ul>
      */
-        private List<Usuario> usuarios;
-        private List<Turma> turmas;
-        private List<Disciplina> disciplinas;
-        private List<Professor> professores;
+        private ArrayList<Estudante> estudantes;
+        private ArrayList<Turma> turmas;
+        private ArrayList<Disciplina> disciplinas;
+        private ArrayList<Professor> professores;
 
     public Administrator() {
         super(12345, LocalDate.now(), "admin", "admin");
-        this.usuarios = new ArrayList<>();
+        this.estudantes = new ArrayList<>();
         this.turmas = new ArrayList<>();
         this.disciplinas = new ArrayList<>();
         this.professores = new ArrayList<>();
@@ -67,7 +66,6 @@ public class Administrator extends Usuario {
     public void cadastrarProfessor(Integer prontuario, LocalDate dataNascimento, String username, String password) {
         Professor professor = new Professor(prontuario, dataNascimento, username, password);
         this.professores.add(professor);
-        this.usuarios.add(professor);
     }
 
     /**
@@ -81,7 +79,7 @@ public class Administrator extends Usuario {
      */
     public void cadastrarAluno(Integer prontuario, LocalDate dataNascimento, String username, String password) {
         Estudante estudante = new Estudante(prontuario, dataNascimento, username, password);
-        this.usuarios.add(estudante);
+        this.estudantes.add(estudante);
     }
 
     /**
@@ -112,16 +110,15 @@ public class Administrator extends Usuario {
         this.disciplinas.add(novaDisciplina);
     }
 
-    // Métodos para recuperar as listas
-    public List<Disciplina> getListaDisciplinas() {
+    public ArrayList<Estudante> getEstudantes() {
+        return estudantes;
+    }
+
+    public ArrayList<Disciplina> getDisciplinas() {
         return disciplinas;
     }
 
-    public List<Professor> getListaProfessores() {
+    public ArrayList<Professor> getProfessores() {
         return professores;
-    }
-
-    public List<Turma> getListaTurmas() {
-        return turmas;
     }
 }
