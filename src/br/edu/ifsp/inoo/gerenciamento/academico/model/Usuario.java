@@ -16,9 +16,9 @@ public abstract class Usuario implements IAutenticavel {
 	}
 	
 	@Override
-	public boolean autenticar(Integer pront, String pass) {
+	public boolean autenticar(String user, String pass) {
 		boolean autenticador = false;
-		if(this.getProntuario().equals(pront) && getPassword().equals(pass)) {
+		if(this.getUsername().equals(user) && getPassword().equals(pass)) {
 			autenticador = true;
 		}
 		return autenticador;

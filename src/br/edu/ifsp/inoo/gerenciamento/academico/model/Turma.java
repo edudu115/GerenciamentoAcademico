@@ -1,5 +1,6 @@
 package br.edu.ifsp.inoo.gerenciamento.academico.model;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Turma {
     private String codigo;

@@ -4,7 +4,7 @@ public final class Avaliacao {
     private final String nome;
     private final double peso;
 
-    private Avaliacao(String nome, double peso) {
+    public Avaliacao(String nome, double peso) {
         this.nome = nome;
         this.peso = peso;
     }

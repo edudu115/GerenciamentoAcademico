@@ -1,5 +1,10 @@
 package br.edu.ifsp.inoo.gerenciamento.academico.view;
+import java.time.LocalDate;
 import java.util.Scanner;
+
+import br.edu.ifsp.inoo.gerenciamento.academico.model.Administrator;
+import br.edu.ifsp.inoo.gerenciamento.academico.model.Estudante;
+import br.edu.ifsp.inoo.gerenciamento.academico.model.Professor;
 
 
 
@@ -10,14 +15,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         
-        Administrator admin = new Administrator("admin", "admin");
+        Administrator admin = new Administrator();
         
-        Professor professor = new Professor("prof1", "1234", "P001");
+        Professor professor = new Professor(1234, LocalDate.now(), "Ednilson", "mudar123");
         
-        Estudante estudante = new Estudante("est1", "abcd", "E001");
+        Estudante estudante = new Estudante(1234, LocalDate.now(), "Ednilson", "mudar123");
 
         
-        System.out.print("Digite seu nome de usuário: ");
+        System.out.print("Digite seu prontuario: ");
         String username = scanner.nextLine();
         System.out.print("Digite sua senha: ");
         String senha = scanner.nextLine();
